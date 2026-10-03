@@ -1,0 +1,7 @@
+# C-specific files
+tests/
+build/
+
+# Vim
+*~
+*.sw[a-p]
