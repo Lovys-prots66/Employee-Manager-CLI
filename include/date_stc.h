@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #ifndef DATE_STC
 #define DATE_STC
 
