@@ -2,6 +2,8 @@
 #include "emp_stc.h"
 
 int create_employee(Employee** table, size_t size, char* fname, char* lname, char* department){
+    
+    // Generate random ID
     int min = 1;
     int max = 20000;
 
@@ -19,6 +21,7 @@ int create_employee(Employee** table, size_t size, char* fname, char* lname, cha
     new_employee->lname = lname;
     new_employee->department = department;
 
+    // Find empty sloth and insert
     for(size_t i=0; i < size; i++){
         if(*(ptr + i) == NULL){
             *(ptr + i) = new_employee;
@@ -38,5 +41,7 @@ Employee* find_employee(Employee** table, size_t size, int ID){
     }
 
     perror("Couldn't find employee");
+
+    return 1;
 }
 
