@@ -7,9 +7,11 @@ int create_employee(Employee** table, size_t size, char* fname, char* lname, cha
 
     int random_num = (rand() % (max - min +1)) + min;
 
+    Employee **ptr = table;
+
     // Create employee
     Employee* new_employee = (Employee*)malloc(sizeof(Employee));
-
+    
     if (new_employee == NULL) {return 1;}
 
     new_employee->ID = random_num;
@@ -18,8 +20,8 @@ int create_employee(Employee** table, size_t size, char* fname, char* lname, cha
     new_employee->department = department;
 
     for(size_t i=0; i < size; i++){
-        if(*(table + i) != NULL){
-            *(table + i) = new_employee;
+        if(*(ptr + i) == NULL){
+            *(ptr + i) = new_employee;
             
             return 0;
         }
@@ -27,3 +29,14 @@ int create_employee(Employee** table, size_t size, char* fname, char* lname, cha
 
     return 1;
 }
+
+
+Employee* find_employee(Employee** table, size_t size, int ID){
+    Employee **start = table;
+    for(size_t i=0; i < size; i++){
+        if((*(start + i))->ID == ID){return *(start + i);}
+    }
+
+    perror("Couldn't find employee");
+}
+
