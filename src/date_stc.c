@@ -4,6 +4,21 @@
 #include <stdlib.h>
 #include "date_stc.h"
 
+Date* create_date(int year, int month, int day){
+    Date* new_date = malloc(sizeof(Date));
+    
+    new_date->day = day;
+    new_date->month = month;
+    new_date->year = year;
+
+    if(!validate_date(new_date)){
+        free(new_date);
+        new_date = NULL;      
+        abort();
+    }else{
+        return new_date;
+    }
+}
 char* format_date(Date* date){
     char* final_date = malloc(11 * sizeof(char));
 
