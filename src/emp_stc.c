@@ -2,7 +2,9 @@
 #include "date_stc.h"
 #include "emp_stc.h"
 
-int create_employee(Employee** table, size_t size, char* fname, char* lname, char* department, Date* joined_at){
+static size_t emp_arr_size = 1;
+
+Employee** create_employee(Employee** table, char* fname, char* lname, char* department, Date* joined_at){
     
     // Generate random ID
     int min = 1;
@@ -10,12 +12,10 @@ int create_employee(Employee** table, size_t size, char* fname, char* lname, cha
 
     int random_num = (rand() % (max - min +1)) + min;
 
-    Employee **ptr = table;
-
     // Create employee
     Employee* new_employee = (Employee*)malloc(sizeof(Employee));
     
-    if (new_employee == NULL) {return 1;}
+    if (new_employee == NULL) {abort();}
 
     new_employee->ID = random_num;
     new_employee->fname = fname;
@@ -23,23 +23,29 @@ int create_employee(Employee** table, size_t size, char* fname, char* lname, cha
     new_employee->department = department;
     new_employee->joined_at = joined_at;
 
-    // Find empty sloth and insert
-    for(size_t i=0; i < size; i++){
-        if(*(ptr + i) == NULL){
-            *(ptr + i) = new_employee;
-            
-            return 0;
-        }
-    }
 
-    return 1;
+    Employee** tmp = realloc(table, emp_arr_size * sizeof(Employee*));
+
+    if(tmp == NULL){abort();}
+
+    if((*(tmp + (emp_arr_size - 1)) = new_employee)){
+
+        table = tmp;
+
+        ++emp_arr_size;
+
+        return table;
+    }
+    
+    perror("Unable to create new employee");
+    abort();
 }
 
 
-Employee* find_employee(Employee** table, size_t size, int ID){
-    Employee **start = table;
-    for(size_t i=0; i < size; i++){
-        if((*(start + i))->ID == ID){return *(start + i);}
+Employee* find_employee(Employee** table, int ID){
+    Employee **tmp = table;
+    for(size_t i=0; i < emp_arr_size; i++){
+        if((*(tmp + i))->ID == ID){return *(tmp + i);}
     }
 
     perror("Couldn't find employee");
